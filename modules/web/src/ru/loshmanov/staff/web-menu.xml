@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<menu-config xmlns="http://schemas.haulmont.com/cuba/menu.xsd">
+    <menu id="application-staff" insertBefore="administration" caption="mainMsg://menu_config.application-staff">
+        <item screen="staff_Employee.browse" caption="mainMsg://menu_config.staff_Employee.browse"/>
+        <item screen="staff_Project.browse" caption="mainMsg://menu_config.staff_Project.browse"/>
+    </menu>
+</menu-config>

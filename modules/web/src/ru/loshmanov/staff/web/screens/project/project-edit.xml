@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://projectEdit.caption"
+        focusComponent="form"
+        messagesPack="ru.loshmanov.staff.web.screens.project">
+    <data>
+        <collection id="empDc" class="ru.loshmanov.staff.entity.Employee" view="_local">
+            <loader id="employeesLoader">
+                <query>
+                    <![CDATA[select e from staff_Employee e]]>
+                </query>
+            </loader>
+        </collection>
+        <instance id="projectDc"
+                  class="ru.loshmanov.staff.entity.Project">
+            <view extends="_local">
+                <property name="employees" view="_minimal"/>
+            </view>
+            <loader/>
+            <collection id="employeesDc" property="employees"/>
+        </instance>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="editActions" spacing="true">
+        <form id="form" dataContainer="projectDc">
+            <column width="350px">
+                <textField id="titleField" property="title"/>
+            </column>
+        </form>
+        <groupBox id="employeesBox" caption="msg://ru.loshmanov.staff.entity/Project.employees">
+            <table id="employeesTable" dataContainer="empDc" width="100%" height="200px">
+<!--                <actions>-->
+<!--                    <action id="add" type="add"/>-->
+<!--                    <action id="exclude" type="exclude"/>-->
+<!--                </actions>-->
+                <columns>
+                    <column id="name" caption="Работник"/>
+                    <column id="emp" caption="Участвует" generator="generateCheckBox"/>
+                </columns>
+
+<!--                <buttonsPanel>-->
+<!--                    <button action="employeesTable.add"/>-->
+<!--                    <button action="employeesTable.exclude"/>-->
+<!--                </buttonsPanel>-->
+            </table>
+        </groupBox>
+
+        <hbox id="editActions" spacing="true">
+<!--            <button action="windowCommitAndClose"/>-->
+            <button invoke="save" icon="SAVE" caption="Save" />
+            <button action="windowClose"/>
+        </hbox>
+    </layout>
+</window>
