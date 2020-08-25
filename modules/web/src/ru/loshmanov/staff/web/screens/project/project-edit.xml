@@ -30,25 +30,15 @@
         </form>
         <groupBox id="employeesBox" caption="msg://ru.loshmanov.staff.entity/Project.employees">
             <table id="employeesTable" dataContainer="empDc" width="100%" height="200px">
-<!--                <actions>-->
-<!--                    <action id="add" type="add"/>-->
-<!--                    <action id="exclude" type="exclude"/>-->
-<!--                </actions>-->
                 <columns>
                     <column id="name" caption="Работник"/>
                     <column id="emp" caption="Участвует" generator="generateCheckBox"/>
                 </columns>
-
-<!--                <buttonsPanel>-->
-<!--                    <button action="employeesTable.add"/>-->
-<!--                    <button action="employeesTable.exclude"/>-->
-<!--                </buttonsPanel>-->
             </table>
         </groupBox>
 
         <hbox id="editActions" spacing="true">
-<!--            <button action="windowCommitAndClose"/>-->
-            <button invoke="save" icon="SAVE" caption="Save" />
+            <button action="windowCommitAndClose"/>
             <button action="windowClose"/>
         </hbox>
     </layout>
