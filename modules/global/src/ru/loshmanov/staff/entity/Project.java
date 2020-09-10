@@ -6,6 +6,7 @@ import com.haulmont.cuba.core.entity.StandardEntity;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 
 @Table(name = "STAFF_PROJECT")
@@ -23,7 +24,7 @@ public class Project extends StandardEntity {
             joinColumns = @JoinColumn(name = "PROJECT_ID"),
             inverseJoinColumns = @JoinColumn(name = "EMPLOYEE_ID"))
     @ManyToMany
-    private List<Employee> employees;
+    private List<Employee> employees = new ArrayList<>();
 
     public List<Employee> getEmployees() {
         return employees;

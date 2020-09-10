@@ -3,7 +3,6 @@ package ru.loshmanov.staff.web.screens.project;
 import com.haulmont.cuba.gui.UiComponents;
 import com.haulmont.cuba.gui.components.CheckBox;
 import com.haulmont.cuba.gui.components.Component;
-import com.haulmont.cuba.gui.model.CollectionContainer;
 import com.haulmont.cuba.gui.screen.*;
 import ru.loshmanov.staff.entity.Employee;
 import ru.loshmanov.staff.entity.Project;
@@ -23,7 +22,7 @@ public class ProjectEdit extends StandardEditor<Project> {
 
     public Component generateCheckBox(Employee item) {
         CheckBox checkBox = uiComponents.create(CheckBox.NAME);
-        List<Employee> employees = getEditedEntityContainer().getItem().getEmployees();
+        List<Employee> employees = getEditedEntity().getEmployees();
         if (employees.contains(item)) {
             checkBox.setValue(true);
         }
