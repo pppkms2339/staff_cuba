@@ -3,5 +3,6 @@
     <menu id="application-staff" insertBefore="administration" caption="mainMsg://menu_config.application-staff">
         <item screen="staff_Employee.browse" caption="mainMsg://menu_config.staff_Employee.browse"/>
         <item screen="staff_Project.browse" caption="mainMsg://menu_config.staff_Project.browse"/>
+        <item screen="staff_Document.browse" caption="mainMsg://menu_config.staff_Document.browse"/>
     </menu>
 </menu-config>

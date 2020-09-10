@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <views xmlns="http://schemas.haulmont.com/cuba/view.xsd">
 
+    <view class="ru.loshmanov.staff.entity.Document" name="document-view" extends="_local">
+        <property name="documentFiles" view="_base"/>
+    </view>
 </views>

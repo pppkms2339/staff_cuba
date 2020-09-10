@@ -4,5 +4,6 @@
 
         <class>ru.loshmanov.staff.entity.Employee</class>
         <class>ru.loshmanov.staff.entity.Project</class>
+        <class>ru.loshmanov.staff.entity.Document</class>
     </persistence-unit>
 </persistence>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://documentEdit.caption"
+        focusComponent="form"
+        messagesPack="ru.loshmanov.staff.web.screens.document">
+    <data>
+        <instance id="documentDc"
+                  class="ru.loshmanov.staff.entity.Document"
+                  view="document-view">
+            <loader/>
+            <collection id="documentFilesDc" property="documentFiles"/>
+        </instance>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="editActions" spacing="true">
+        <form id="form" dataContainer="documentDc">
+            <column width="350px">
+                <textField id="shortNameField" property="shortName"/>
+                <textField id="fullNameField" property="fullName"/>
+                <textField id="urlField" property="url"/>
+                <textField id="priorityField" property="priority"/>
+            </column>
+        </form>
+        <groupBox id="documentFilesBox" caption="Document files">
+            <buttonsPanel>
+                <upload id="upload"
+                        dropZone="contentHBox"
+                        showClearButton="false"
+                        uploadButtonIcon="UPLOAD"
+                        uploadButtonCaption=""
+                        fileStoragePutMode="MANUAL"
+                        permittedExtensions=".pdf"
+                        showFileName="false"/>
+                <button action="documentFilesTable.download"/>
+                <button action="documentFilesTable.remove"/>
+            </buttonsPanel>
+            <hbox id="contentHBox" spacing="true" width="100%">
+                <table id="documentFilesTable"
+                       dataContainer="documentFilesDc"
+                       width="100%"
+                       height="100%"
+                       columnControlVisible="false">
+                    <actions>
+                        <action id="download" trackSelection="true" icon="DOWNLOAD"/>
+                        <action id="edit" type="edit"/>
+                        <action id="remove" type="remove"/>
+                    </actions>
+                    <columns>
+                        <column id="name"/>
+                    </columns>
+                </table>
+            </hbox>
+        </groupBox>
+        <hbox id="editActions" spacing="true">
+            <button action="windowCommitAndClose"/>
+            <button action="windowClose"/>
+        </hbox>
+    </layout>
+</window>
