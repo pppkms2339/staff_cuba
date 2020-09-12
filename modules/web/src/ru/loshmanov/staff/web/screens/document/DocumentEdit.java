@@ -5,9 +5,9 @@ import com.haulmont.cuba.core.entity.FileDescriptor;
 import com.haulmont.cuba.core.global.DataManager;
 import com.haulmont.cuba.core.global.FileStorageException;
 import com.haulmont.cuba.gui.Notifications;
-import com.haulmont.cuba.gui.components.Action;
-import com.haulmont.cuba.gui.components.FileUploadField;
-import com.haulmont.cuba.gui.components.Table;
+import com.haulmont.cuba.gui.ScreenBuilders;
+import com.haulmont.cuba.gui.UiComponents;
+import com.haulmont.cuba.gui.components.*;
 import com.haulmont.cuba.gui.export.ExportDisplay;
 import com.haulmont.cuba.gui.export.ExportFormat;
 import com.haulmont.cuba.gui.model.CollectionPropertyContainer;
@@ -16,10 +16,13 @@ import com.haulmont.cuba.gui.upload.FileUploadingAPI;
 import com.haulmont.cuba.gui.util.OperationResult;
 import org.slf4j.Logger;
 import ru.loshmanov.staff.entity.Document;
+import ru.loshmanov.staff.web.screens.document.document_file_preview.DocumentFilePreview;
+import ru.loshmanov.staff.web.screens.document.document_file_preview.DocumentPreviewComponentFactory;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @UiController("staff_Document.edit")
 @UiDescriptor("document-edit.xml")
@@ -57,7 +60,40 @@ public class DocumentEdit extends StandardEditor<Document> {
     @Inject
     private FileStorageService fileStorageService;
 
+    @Inject
+    private HBoxLayout documentFilesWrapperLayout;
+
+    @Inject
+    protected UiComponents uiComponents;
+
+    @Inject
+    protected ScreenBuilders screenBuilders;
+
     private List<FileDescriptor> newImageDescriptors = new ArrayList<>();
+
+    @Subscribe("documentFilesTable")
+    public void onDocumentFilesTableSelection(Table.SelectionEvent<FileDescriptor> event) {
+        documentFilesWrapperLayout.removeAll();
+        Set<FileDescriptor> selectedXrayImages = event.getSelected();
+
+        if (!selectedXrayImages.isEmpty()) {
+            documentFilesWrapperLayout.add(documentFile(selectedXrayImages.iterator().next()));
+        }
+    }
+
+    private Component documentFile(FileDescriptor file) {
+        DocumentPreviewComponentFactory factory = new DocumentPreviewComponentFactory(uiComponents, messageBundle);
+        return factory.create(file);
+    }
+
+    @Subscribe("documentFilesTable.edit")
+    public void onDocumentFilesTableEdit(Action.ActionPerformedEvent event) {
+        screenBuilders.editor(FileDescriptor.class, this)
+                .editEntity(documentFilesTable.getSingleSelected())
+                .withScreenClass(DocumentFilePreview.class)
+                .withOpenMode(OpenMode.DIALOG)
+                .show();
+    }
 
     @Subscribe("documentFilesTable.download")
     public void onDocumentFilesTableDownload(Action.ActionPerformedEvent event) {

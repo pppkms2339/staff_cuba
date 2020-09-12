@@ -30,7 +30,7 @@
                         uploadButtonIcon="UPLOAD"
                         uploadButtonCaption=""
                         fileStoragePutMode="MANUAL"
-                        permittedExtensions=".pdf"
+                        permittedExtensions=".pdf,.jpg"
                         showFileName="false"/>
                 <button action="documentFilesTable.download"/>
                 <button action="documentFilesTable.remove"/>
@@ -50,6 +50,11 @@
                         <column id="name"/>
                     </columns>
                 </table>
+                <hbox id="documentFilesWrapperLayout"
+                      height="100%"
+                      width="100%"
+                      spacing="true">
+                </hbox>
             </hbox>
         </groupBox>
         <hbox id="editActions" spacing="true">
