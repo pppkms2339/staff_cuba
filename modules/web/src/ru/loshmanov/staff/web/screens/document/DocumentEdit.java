@@ -69,15 +69,19 @@ public class DocumentEdit extends StandardEditor<Document> {
     @Inject
     protected ScreenBuilders screenBuilders;
 
+    @Inject
+    private Button lookButton;
+
     private List<FileDescriptor> newImageDescriptors = new ArrayList<>();
 
     @Subscribe("documentFilesTable")
     public void onDocumentFilesTableSelection(Table.SelectionEvent<FileDescriptor> event) {
+        lookButton.setEnabled(true);
         documentFilesWrapperLayout.removeAll();
-        Set<FileDescriptor> selectedXrayImages = event.getSelected();
+        Set<FileDescriptor> selectedDocumentFiles = event.getSelected();
 
-        if (!selectedXrayImages.isEmpty()) {
-            documentFilesWrapperLayout.add(documentFile(selectedXrayImages.iterator().next()));
+        if (!selectedDocumentFiles.isEmpty()) {
+            documentFilesWrapperLayout.add(documentFile(selectedDocumentFiles.iterator().next()));
         }
     }
 
@@ -144,5 +148,15 @@ public class DocumentEdit extends StandardEditor<Document> {
             }
         });
     }
+
+    @Subscribe("lookButton")
+    public void onLookButtonClick(Button.ClickEvent event) {
+        screenBuilders.editor(FileDescriptor.class, this)
+                .editEntity(documentFilesTable.getSingleSelected())
+                .withScreenClass(DocumentFilePreview.class)
+                .withOpenMode(OpenMode.DIALOG)
+                .show();
+    }
+
 
 }

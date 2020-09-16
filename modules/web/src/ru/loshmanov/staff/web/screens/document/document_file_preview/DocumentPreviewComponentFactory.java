@@ -23,10 +23,12 @@ public class DocumentPreviewComponentFactory {
         groupBoxLayout.setHeightFull();
         groupBoxLayout.setStyleName("well");
         groupBoxLayout.setCaption(messageBundle.formatMessage("previewFile", file.getName()));
+//        groupBoxLayout.add(fileComponent(file));
+//
         if (isPdf(file)) {
-            groupBoxLayout.add(xrayPdfComponent(file));
+            groupBoxLayout.add(filePdfComponent(file));
         } else if (isImage(file)) {
-            groupBoxLayout.add(xrayImageComponent(file));
+            groupBoxLayout.add(fileImageComponent(file));
         }
         return groupBoxLayout;
     }
@@ -41,7 +43,24 @@ public class DocumentPreviewComponentFactory {
                 || imageFile.getExtension().contains("jpeg");
     }
 
-    private Component xrayPdfComponent(FileDescriptor imageFile) {
+    private Component fileComponent(FileDescriptor imageFile) {
+        BrowserFrame browserFrame = uiComponents.create(BrowserFrame.class);
+        browserFrame.setAlignment(Component.Alignment.MIDDLE_CENTER);
+        browserFrame.setWidthFull();
+        browserFrame.setHeightFull();
+        if(isPdf(imageFile)) {
+            browserFrame.setSource(FileDescriptorResource.class)
+                    .setFileDescriptor(imageFile)
+                    .setMimeType(MediaType.APPLICATION_PDF_VALUE);
+        } else if(isImage(imageFile)) {
+            browserFrame.setSource(FileDescriptorResource.class)
+                    .setFileDescriptor(imageFile)
+                    .setMimeType(MediaType.IMAGE_JPEG_VALUE);
+        }
+        return browserFrame;
+    }
+
+    private Component filePdfComponent(FileDescriptor imageFile) {
         BrowserFrame browserFrame = uiComponents.create(BrowserFrame.class);
         browserFrame.setAlignment(Component.Alignment.MIDDLE_CENTER);
         browserFrame.setWidthFull();
@@ -52,7 +71,7 @@ public class DocumentPreviewComponentFactory {
         return browserFrame;
     }
 
-    private Component xrayImageComponent(FileDescriptor imageFile) {
+    private Component fileImageComponent(FileDescriptor imageFile) {
         Image image = uiComponents.create(Image.class);
         image.setScaleMode(Image.ScaleMode.SCALE_DOWN);
         image.setAlignment(Component.Alignment.MIDDLE_CENTER);

@@ -13,7 +13,7 @@
     </data>
     <dialogMode height="600"
                 width="800"/>
-    <layout expand="editActions" spacing="true">
+    <layout expand="documentFilesBox" spacing="true">
         <form id="form" dataContainer="documentDc">
             <column width="350px">
                 <textField id="shortNameField" property="shortName"/>
@@ -22,17 +22,18 @@
                 <textField id="priorityField" property="priority"/>
             </column>
         </form>
-        <groupBox id="documentFilesBox" caption="Document files">
+        <groupBox id="documentFilesBox" caption="Document files" expand="contentHBox" spacing="true">
             <buttonsPanel>
                 <upload id="upload"
                         dropZone="contentHBox"
                         showClearButton="false"
                         uploadButtonIcon="UPLOAD"
-                        uploadButtonCaption=""
+                        uploadButtonCaption="Upload"
                         fileStoragePutMode="MANUAL"
                         permittedExtensions=".pdf,.jpg"
                         showFileName="false"/>
-                <button action="documentFilesTable.download"/>
+                <button caption="Download" action="documentFilesTable.download"/>
+                <button caption="Increase" icon="icons/eye-plus.png" id="lookButton" enable="false"/>
                 <button action="documentFilesTable.remove"/>
             </buttonsPanel>
             <hbox id="contentHBox" spacing="true" width="100%">
