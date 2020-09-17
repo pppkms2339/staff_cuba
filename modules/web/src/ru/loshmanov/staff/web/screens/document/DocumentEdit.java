@@ -79,14 +79,16 @@ public class DocumentEdit extends StandardEditor<Document> {
         lookButton.setEnabled(true);
         documentFilesWrapperLayout.removeAll();
         Set<FileDescriptor> selectedDocumentFiles = event.getSelected();
-
         if (!selectedDocumentFiles.isEmpty()) {
-            documentFilesWrapperLayout.add(documentFile(selectedDocumentFiles.iterator().next()));
+            Component component = documentFile(selectedDocumentFiles.iterator().next());
+            if (component != null) {
+                documentFilesWrapperLayout.add(component);
+            }
         }
     }
 
     private Component documentFile(FileDescriptor file) {
-        DocumentPreviewComponentFactory factory = new DocumentPreviewComponentFactory(uiComponents, messageBundle);
+        DocumentPreviewComponentFactory factory = new DocumentPreviewComponentFactory(uiComponents, messageBundle, notifications);
         return factory.create(file);
     }
 

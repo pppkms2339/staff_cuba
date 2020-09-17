@@ -1,19 +1,24 @@
 package ru.loshmanov.staff.web.screens.document.document_file_preview;
 
 import com.haulmont.cuba.core.entity.FileDescriptor;
+import com.haulmont.cuba.gui.Notifications;
 import com.haulmont.cuba.gui.UiComponents;
 import com.haulmont.cuba.gui.components.*;
 import com.haulmont.cuba.gui.screen.MessageBundle;
 import org.springframework.http.MediaType;
 
+import javax.inject.Inject;
+
 public class DocumentPreviewComponentFactory {
 
     private final UiComponents uiComponents;
     private final MessageBundle messageBundle;
+    private final Notifications notifications;
 
-    public DocumentPreviewComponentFactory(UiComponents uiComponents, MessageBundle messageBundle) {
+    public DocumentPreviewComponentFactory(UiComponents uiComponents, MessageBundle messageBundle, Notifications notifications) {
         this.uiComponents = uiComponents;
         this.messageBundle = messageBundle;
+        this.notifications = notifications;
     }
 
     public Component create(FileDescriptor file) {
@@ -23,12 +28,15 @@ public class DocumentPreviewComponentFactory {
         groupBoxLayout.setHeightFull();
         groupBoxLayout.setStyleName("well");
         groupBoxLayout.setCaption(messageBundle.formatMessage("previewFile", file.getName()));
-//        groupBoxLayout.add(fileComponent(file));
-//
         if (isPdf(file)) {
             groupBoxLayout.add(filePdfComponent(file));
         } else if (isImage(file)) {
             groupBoxLayout.add(fileImageComponent(file));
+        } else if (isNotShownFile(file)) {
+            notifications.create(Notifications.NotificationType.TRAY)
+                    .withCaption(messageBundle.getMessage("documentFileNotShown"))
+                    .show();
+            return null;
         }
         return groupBoxLayout;
     }
@@ -43,21 +51,13 @@ public class DocumentPreviewComponentFactory {
                 || imageFile.getExtension().contains("jpeg");
     }
 
-    private Component fileComponent(FileDescriptor imageFile) {
-        BrowserFrame browserFrame = uiComponents.create(BrowserFrame.class);
-        browserFrame.setAlignment(Component.Alignment.MIDDLE_CENTER);
-        browserFrame.setWidthFull();
-        browserFrame.setHeightFull();
-        if(isPdf(imageFile)) {
-            browserFrame.setSource(FileDescriptorResource.class)
-                    .setFileDescriptor(imageFile)
-                    .setMimeType(MediaType.APPLICATION_PDF_VALUE);
-        } else if(isImage(imageFile)) {
-            browserFrame.setSource(FileDescriptorResource.class)
-                    .setFileDescriptor(imageFile)
-                    .setMimeType(MediaType.IMAGE_JPEG_VALUE);
-        }
-        return browserFrame;
+    private boolean isNotShownFile(FileDescriptor file) {
+        return file.getExtension().contains("doc")
+                || file.getExtension().contains("docx")
+                || file.getExtension().contains("xls")
+                || file.getExtension().contains("xlsx")
+                || file.getExtension().contains("ppt")
+                || file.getExtension().contains("pptx");
     }
 
     private Component filePdfComponent(FileDescriptor imageFile) {

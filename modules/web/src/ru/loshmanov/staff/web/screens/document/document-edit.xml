@@ -30,7 +30,7 @@
                         uploadButtonIcon="UPLOAD"
                         uploadButtonCaption="Upload"
                         fileStoragePutMode="MANUAL"
-                        permittedExtensions=".pdf,.jpg"
+                        permittedExtensions=".pdf,.jpg,.doc,.docx,.jpeg,.xls,.xlsx,.ppt,.pptx"
                         showFileName="false"/>
                 <button caption="Download" action="documentFilesTable.download"/>
                 <button caption="Increase" icon="icons/eye-plus.png" id="lookButton" enable="false"/>
