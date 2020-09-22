@@ -16,6 +16,7 @@ import com.haulmont.cuba.gui.upload.FileUploadingAPI;
 import com.haulmont.cuba.gui.util.OperationResult;
 import org.slf4j.Logger;
 import ru.loshmanov.staff.entity.Document;
+import ru.loshmanov.staff.entity.Employee;
 import ru.loshmanov.staff.web.screens.document.document_file_preview.DocumentFilePreview;
 import ru.loshmanov.staff.web.screens.document.document_file_preview.DocumentPreviewComponentFactory;
 
@@ -160,5 +161,16 @@ public class DocumentEdit extends StandardEditor<Document> {
                 .show();
     }
 
+    public Component generateNumberField(FileDescriptor item) {
+        Label label = uiComponents.create(Label.NAME);
+        label.setValue(documentFilesDc.getItems().indexOf(item) + 1);
+        return label;
+    }
+
+    public Component generateFileTypeField(FileDescriptor item) {
+        Label label = uiComponents.create(Label.NAME);
+        label.setValue(item.getExtension().toUpperCase());
+        return label;
+    }
 
 }

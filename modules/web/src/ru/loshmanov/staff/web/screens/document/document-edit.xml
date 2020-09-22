@@ -48,7 +48,9 @@
                         <action id="remove" type="remove"/>
                     </actions>
                     <columns>
+                        <column id="number" caption="№" generator="generateNumberField"/>
                         <column id="name"/>
+                        <column id="type" caption="Тип файла" generator="generateFileTypeField"/>
                     </columns>
                 </table>
                 <hbox id="documentFilesWrapperLayout"
