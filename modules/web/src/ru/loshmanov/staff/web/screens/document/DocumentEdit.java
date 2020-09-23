@@ -83,23 +83,29 @@ public class DocumentEdit extends StandardEditor<Document> {
         if (!selectedDocumentFiles.isEmpty()) {
             Component component = documentFile(selectedDocumentFiles.iterator().next());
             if (component != null) {
+                lookButton.setEnabled(true);
                 documentFilesWrapperLayout.add(component);
+            } else {
+                lookButton.setEnabled(false);
             }
         }
     }
 
     private Component documentFile(FileDescriptor file) {
         DocumentPreviewComponentFactory factory = new DocumentPreviewComponentFactory(uiComponents, messageBundle, notifications);
+
         return factory.create(file);
     }
 
     @Subscribe("documentFilesTable.edit")
     public void onDocumentFilesTableEdit(Action.ActionPerformedEvent event) {
-        screenBuilders.editor(FileDescriptor.class, this)
-                .editEntity(documentFilesTable.getSingleSelected())
-                .withScreenClass(DocumentFilePreview.class)
-                .withOpenMode(OpenMode.DIALOG)
-                .show();
+        if(lookButton.isEnabled()) {
+            screenBuilders.editor(FileDescriptor.class, this)
+                    .editEntity(documentFilesTable.getSingleSelected())
+                    .withScreenClass(DocumentFilePreview.class)
+                    .withOpenMode(OpenMode.DIALOG)
+                    .show();
+        }
     }
 
     @Subscribe("documentFilesTable.download")
